@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -13,8 +14,12 @@ class MyApp extends StatefulWidget {
 
 int start = 1;
 int end = 1;
-int _user = 0;
-int _com = 0;
+
+double scale = 1;
+double scaleSystem = 0;
+double scaleMohamed = 0;
+double turns = 0;
+
 
 class _MyAppState extends State<MyApp> {
   @override
@@ -22,7 +27,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     start = Random().nextInt(3) + 1;
-    end = Random().nextInt(3) + 1;
+
   }
 
   @override
@@ -30,72 +35,189 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.purpleAccent,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _user.toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.white),
-                    ),
-                    Text(_com.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white)),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.symmetric(vertical: 10),
-                  child: Row(
+        backgroundColor: const Color(0xff526D82),
+        appBar: AppBar(
+          backgroundColor: const Color(0xff27374D),
+          title: const Text("Game"),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40),
+          child: Column(
+            children: [
+              AnimatedRotation(
+                turns: turns,
+                duration: Duration(seconds: 2),
+                curve: Curves.decelerate,
+                child: AnimatedScale(
+                  scale: scale,
+                  duration: Duration(seconds: 1),
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            setState(() {
-                              start = Random().nextInt(3) + 1;
-                              end = Random().nextInt(3) + 1;
-                              if(start == 1 && end == 2){
-                                _user++;
-                              }else if(end == 1 && start == 2){
-                                _com++;
-                              }
-                            });
-                          },
-                          child: Image.asset("images/paper_$start.png"),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            width: 40,
+                            height: 40,
+                            child: Image.asset("images/paper_1.png"),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            width: 40,
+                            height: 40,
+                            child: Image.asset("images/paper_2.png"),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            setState(() {
-                              start = Random().nextInt(3) + 1;
-                              end = Random().nextInt(3) + 1;
-                              if(start == 1 && end == 2){
-                                _user++;
-                              }else if(end == 1 && start == 2){
-                                _com++;
-                              }
-                            });
-                          },
-                          child: Image.asset("images/paper_$start.png"),
-                        ),
-                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            width: 40,
+                            height: 40,
+                            child: Image.asset("images/paper_3.png"),
+                          ),
+                    ],
+                  )
+
                     ],
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        AnimatedScale(
+                          scale: scaleSystem,
+                          duration: Duration(seconds: 1),
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+
+                              });
+                            },
+                            child: Image.asset("images/paper_$start.png"),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const Text(
+                          "Mohamed",
+                          style: TextStyle(
+                              color: Color(0xffDDE6ED),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    const Text(
+                      "VS",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Column(
+                      children: [
+                        AnimatedScale(
+                          scale: scaleSystem,
+                          duration: Duration(seconds: 1),
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                }
+                              );
+                            },
+                            child: Image.asset("images/paper_$end.png"),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const Text(
+                          "System",
+                          style: TextStyle(
+                              color: Color(0xffDDE6ED),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                "You Win!",
+                style: TextStyle(
+                    color: Color(0xffDDE6ED),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+
+                    onTap: (){
+                      setState(() {
+                        setState(() {
+                          scaleSystem = 0;
+                          scaleMohamed = 0;
+                          Timer(Duration(seconds: 1), () {
+                            setState(() {
+                              scale = 1;
+                              turns += 5 ;
+                              scaleSystem = 1;
+                              start = Random().nextInt(3) + 1;
+                              end = Random().nextInt(3) +1;
+                            });
+                          });
+
+
+
+                        });
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      width: 100,
+                      height: 100,
+                      child: Image.asset("images/paper_1.png"),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    width: 100,
+                    height: 100,
+                    child: Image.asset("images/paper_2.png"),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    width: 100,
+                    height: 100,
+                    child: Image.asset("images/paper_3.png"),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
